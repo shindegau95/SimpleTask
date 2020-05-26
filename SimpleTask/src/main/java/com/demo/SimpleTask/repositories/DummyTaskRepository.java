@@ -21,13 +21,13 @@ public class DummyTaskRepository implements TaskRepository{
     }
 
     @Override
-    public Long deleteByTaskDescription(String taskDescription) {
-        return null;
+    public Optional<Task> findById(Long aLong) {
+        return Optional.empty();
     }
 
     @Override
-    public Optional<Task> findById(Long aLong) {
-        return Optional.empty();
+    public void deleteById(Long id) {
+
     }
 
 

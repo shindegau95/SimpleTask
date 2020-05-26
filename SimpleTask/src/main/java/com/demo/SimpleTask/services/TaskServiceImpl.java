@@ -40,7 +40,12 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
-    public void deleteTasks(String description) {
-        JPATaskRepository.deleteByTaskDescription(description);
+    public boolean deleteTask(Task task) {
+        try{
+            JPATaskRepository.deleteById(task.getId());
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

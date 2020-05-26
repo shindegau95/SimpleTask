@@ -3,14 +3,16 @@
     <a href="#" class="brand-logo margin-left">
       <i class="material-icons">assignment</i> {{title}}
     </a>
+    
   </div>
 
-  <div class="nav-content blue">
+  <div class="nav-content light-green darken-2">
     <ul class="tabs tabs-transparent">
       <li class="tab"><a href="#" [ngClass]="{'active':mode===1}" (click)="changeMode(1)">All</a></li>
       <li class="tab"><a href="#" [ngClass]="{'active':mode===2}" (click)="changeMode(2)">Active</a></li>
       <li class="tab"><a href="#" [ngClass]="{'active':mode===3}" (click)="changeMode(3)">Completed</a></li>
     </ul>
+    
   </div>
 </nav>
 

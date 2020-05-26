@@ -12,5 +12,5 @@ import java.util.Optional;
 @Repository
 @Transactional
 public interface JPATaskRepository extends JpaRepository<Task, Long>, TaskRepository {
-    Long deleteByTaskDescription(String taskDescription);
+
 }

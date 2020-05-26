@@ -5,7 +5,6 @@ import com.demo.SimpleTask.model.Task;
 import com.demo.SimpleTask.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,17 +44,20 @@ public class TaskController {
     public CommonResponse<String> updatedTask(@RequestBody Task task){
         boolean success = taskService.updateCompletedStatus(task);
         if(success){
-            return new CommonResponse<String>("SUCCESS", HttpStatus.ACCEPTED);
+            return new CommonResponse<String>("SUCCESS", HttpStatus.OK);
         }else {
-            return new  CommonResponse<String>("FAILURE", HttpStatus.EXPECTATION_FAILED);
+            return new  CommonResponse<String>("FAILURE", HttpStatus.CONFLICT);
         }
     }
 
 
     @DeleteMapping(value="deleteTask")
     @ResponseBody
-    public CommonResponse<Task> deleteTask(@RequestBody Task task){
-        taskService.deleteTasks(task.getTaskDescription());
-        return new CommonResponse<Task>(null, HttpStatus.ACCEPTED);
+    public CommonResponse<String> deleteTask(@RequestBody Task task){
+        if(taskService.deleteTask(task)){
+            return new CommonResponse<String>("SUCCESS", HttpStatus.OK);
+        }else{
+            return new CommonResponse<String>("FAILURE", HttpStatus.CONFLICT);
+        }
     }
 }
