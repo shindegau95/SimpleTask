@@ -15,11 +15,11 @@
 </nav>
 
 <br><br><br>
-<div class="row">
+<div class="row task-display-section">
   <div class="col s10 offset-s1">
     <div class="row">
-      <div class="col-12 tasks" *ngFor="let task of tasks">
-        <task-display [task]="task"></task-display>
+      <div class="col-12 tasks" *ngFor="let task of getTasksByMode()">
+        <task-display [task]="task" (taskUpdated) = "refreshTasks()"></task-display>
       </div>
     </div>
 
@@ -27,6 +27,6 @@
 </div>
 <div class="task-input row">
   <div class="col s10 offset-s1">
-    <task-input></task-input>
+    <task-input (tasksAdded) = "refreshTasks()"></task-input>
   </div>
 </div>

@@ -1,6 +1,7 @@
 import { TaskService } from './services/task-service/task.service';
 import { Task } from './models/Task';
 import { Component, OnInit } from '@angular/core';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -17,18 +18,27 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const refreshTasks = setInterval(() => this.refreshTasks(), 2000);
+    this.refreshTasks();
   }
 
   changeMode(mode: number) {
     this.mode = mode;
   }
 
+  getTasksByMode(): Task[] {
+    if (this.mode === 1) {
+      return this.tasks;
+    } else if (this.mode === 2){
+      return this.tasks.filter(t => !t.done);
+    } else if (this.mode === 3){
+      return this.tasks.filter(t => t.done);
+    }
+  }
 
   refreshTasks() {
     this.taskService.getTasks()
       .subscribe(response => {
-        this.tasks = response;
+        this.tasks = response.entity;
       });
   }
 }

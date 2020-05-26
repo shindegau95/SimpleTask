@@ -1,10 +1,10 @@
 <div class="card">
     <div class="card-content valign-wrapper">
-        <span>
+        <a (click)="toggleStatus()" class="btn-flat" >
             <i *ngIf="!task.done" class="material-icons blue-text">trip_origin</i>
             <i *ngIf="task.done" class="material-icons green-text">done</i>
-        </span>
+        </a>
         <span class="large">{{task.taskDescription}}</span>
-        <span class="cancel"><i class="material-icons grey-text">close</i></span>
+        <a (click)="deleteTask()" class="cancel btn-flat"><i class="material-icons grey-text">close</i></a>
     </div>
 </div>
