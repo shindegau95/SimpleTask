@@ -21,7 +21,7 @@ export class TaskDisplayComponent implements OnInit {
     requestTask.done = !this.task.done;
     this.taskService.updateTask(requestTask)
     .subscribe(response => {
-      if (response.status === 'ACCEPTED'){
+      if (response.status === 'OK'){
         this.task.done = !this.task.done;
         this.taskUpdated.emit();
       }
