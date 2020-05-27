@@ -13,26 +13,26 @@ public class TaskServiceImpl implements TaskService{
 
 
     @Autowired
-    TaskRepository JPATaskRepository;
+    TaskRepository dummyTaskRepository;
 
     @Override
     public List<Task> getTasks(){
-        return JPATaskRepository.findAll();
+        return dummyTaskRepository.findAll();
     }
 
     @Override
     public Task addTask(String description, boolean done) {
         Task task = new Task(description, done);
-        return JPATaskRepository.save(task);
+        return dummyTaskRepository.save(task);
     }
 
     @Override
     public boolean updateCompletedStatus(Task task) {
         boolean newStatus = task.isDone();
-        Optional<Task> foundTask = JPATaskRepository.findById(task.getId());
+        Optional<Task> foundTask = dummyTaskRepository.findById(task.getId());
         if(foundTask.isPresent()){
             foundTask.get().setDone(newStatus);
-            JPATaskRepository.save(foundTask.get());
+            dummyTaskRepository.save(foundTask.get());
             return true;
         }else{
             return false;
@@ -42,7 +42,7 @@ public class TaskServiceImpl implements TaskService{
     @Override
     public boolean deleteTask(Task task) {
         try{
-            JPATaskRepository.deleteById(task.getId());
+            dummyTaskRepository.deleteById(task.getId());
             return true;
         }catch (Exception e){
             return false;

@@ -28,22 +28,6 @@ public class JDBCTaskRepository implements TaskRepository {
     }
 
     @Override
-    public Task save(Task task) {
-        //if task is present then update, else add and save
-        if(findById(task.getId()).isPresent()){
-            String updateQuery = "update TASK_APPLICATION.TASK set task_description=?, is_done = ? where task_id = ?;";
-            jdbcTemplate.update(updateQuery, task.getTaskDescription(), task.isDone(), task.getId());
-            return task;
-        }else{
-            String insertQuery = "insert into TASK_APPLICATION.TASK( task_description, is_done) values(?, ?);";
-            jdbcTemplate.update(insertQuery, task.getTaskDescription(), task.isDone());
-            return task;
-        }
-
-
-    }
-
-    @Override
     public Optional<Task> findById(Long id) {
         String selectQuery = "Select * from TASK_APPLICATION.task where task_id = ?";
         try{
@@ -57,6 +41,22 @@ public class JDBCTaskRepository implements TaskRepository {
             return Optional.of(task);
         }catch (Exception e){
             return Optional.empty();
+        }
+
+
+    }
+
+    @Override
+    public Task save(Task task) {
+        //if task is present then update, else add and save
+        if(findById(task.getId()).isPresent()){
+            String updateQuery = "update TASK_APPLICATION.TASK set task_description=?, is_done = ? where task_id = ?;";
+            jdbcTemplate.update(updateQuery, task.getTaskDescription(), task.isDone(), task.getId());
+            return task;
+        }else{
+            String insertQuery = "insert into TASK_APPLICATION.TASK( task_description, is_done) values(?, ?);";
+            jdbcTemplate.update(insertQuery, task.getTaskDescription(), task.isDone());
+            return task;
         }
 
 

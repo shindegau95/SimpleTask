@@ -28,6 +28,11 @@ public class DummyTaskRepository implements TaskRepository{
     }
 
     @Override
+    public Optional<Task> findById(Long id) {
+        return this.tasks.stream().filter(t -> t.getId() == id).findFirst();
+    }
+
+    @Override
     public Task save(Task task) {
         //if task is present then update, else add and save
 
@@ -41,11 +46,6 @@ public class DummyTaskRepository implements TaskRepository{
                     .map(t -> task);
         }
         return task;
-    }
-
-    @Override
-    public Optional<Task> findById(Long id) {
-        return this.tasks.stream().filter(t -> t.getId() == id).findFirst();
     }
 
     @Override
