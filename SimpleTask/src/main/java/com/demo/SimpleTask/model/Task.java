@@ -21,8 +21,6 @@ public class Task implements Serializable {
     @Column(name = "is_done")
     private boolean done;
 
-    public Task() {
-    }
 
     public Task(long id, String taskDescription, boolean done) {
         this.id = id;
