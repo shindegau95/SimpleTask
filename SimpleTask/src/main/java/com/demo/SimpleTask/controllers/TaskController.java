@@ -1,10 +1,10 @@
 package com.demo.SimpleTask.controllers;
 
+import com.demo.SimpleTask.model.CommonResponse;
 import com.demo.SimpleTask.model.Task;
 import com.demo.SimpleTask.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,32 +25,39 @@ public class TaskController {
     TaskService taskService;
 
     @GetMapping("getTasks")
-    public ResponseEntity<List<Task>> getTasks(){
+    @ResponseBody
+    public CommonResponse<List<Task>> getTasks(){
         List<Task> tasks  = taskService.getTasks();
-        ResponseEntity<List<Task>> response = new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
+        CommonResponse<List<Task>> response = new CommonResponse<List<Task>>(tasks, HttpStatus.OK);
         return response;
     }
 
     @PostMapping(value="addTask", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<Task> addTask(@RequestBody Task task){
+    @ResponseBody
+    public CommonResponse<Task> addTask(@RequestBody Task task){
         Task resultTask = taskService.addTask(task.getTaskDescription(), task.isDone());
-        return  new ResponseEntity<Task>(resultTask, HttpStatus.CREATED);
+        return  new  CommonResponse<Task>(resultTask, HttpStatus.CREATED);
     }
 
     @PutMapping(value="updateTask", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<String> updatedTask(@RequestBody Task task){
+    @ResponseBody
+    public CommonResponse<String> updatedTask(@RequestBody Task task){
         boolean success = taskService.updateCompletedStatus(task);
         if(success){
-            return new ResponseEntity<>("SUCCESS", HttpStatus.ACCEPTED);
+            return new CommonResponse<String>("SUCCESS", HttpStatus.OK);
         }else {
-            return new ResponseEntity<>("FAILURE", HttpStatus.EXPECTATION_FAILED);
+            return new  CommonResponse<String>("FAILURE", HttpStatus.CONFLICT);
         }
     }
 
 
     @DeleteMapping(value="deleteTask")
-    public ResponseEntity<Task> deleteTask(@RequestBody Task task){
-        taskService.deleteTasks(task.getTaskDescription());
-        return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
+    @ResponseBody
+    public CommonResponse<String> deleteTask(@RequestBody Task task){
+        if(taskService.deleteTask(task)){
+            return new CommonResponse<String>("SUCCESS", HttpStatus.OK);
+        }else{
+            return new CommonResponse<String>("FAILURE", HttpStatus.CONFLICT);
+        }
     }
 }

@@ -29,3 +29,32 @@
 .padding-bottom{
   padding-bottom:8px;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: limegreen;
+  border-radius: 10px;
+}
+
+.frosted-light {
+  background-color: rgba(255, 255, 255, 0.7);  
+  backdrop-filter: blur(15px);
+  border-radius: 5px;
+}
+
+.frosted-dark {
+  background-color: rgba(0, 0, 0, 0.5);  
+  backdrop-filter: blur(5px);
+  border-radius: 5px;
+}

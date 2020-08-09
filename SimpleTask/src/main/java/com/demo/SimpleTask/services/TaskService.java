@@ -18,5 +18,5 @@ public interface TaskService {
     boolean updateCompletedStatus(Task task);
 
     //delete Tasks
-    void deleteTasks(String description);
+    boolean deleteTask(Task task);
 }

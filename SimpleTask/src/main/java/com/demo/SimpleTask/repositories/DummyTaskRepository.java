@@ -3,10 +3,8 @@ package com.demo.SimpleTask.repositories;
 import com.demo.SimpleTask.model.Task;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 public class DummyTaskRepository implements TaskRepository{
@@ -14,33 +12,45 @@ public class DummyTaskRepository implements TaskRepository{
 
     public DummyTaskRepository() {
         this.tasks = new ArrayList<>();
+        this.seedData();
     }
 
-    public List<Task> findAll(){
+    private void seedData(){
+        Task t1 = new Task(1, "First Todo", true);
+        Task t2 = new Task(2, "Second Todo", false);
+        this.tasks.addAll(Arrays.asList(t1,t2));
+    }
+
+
+    @Override
+    public List<Task> findAll() {
         return tasks;
     }
 
     @Override
+    public Optional<Task> findById(Long id) {
+        return this.tasks.stream().filter(t -> t.getId() == id).findFirst();
+    }
+
+    @Override
     public Task save(Task task) {
-        tasks.add(task);
+        //if task is present then update, else add and save
+
+        if(Objects.isNull(task.getId()) || task.getId() == 0){
+            long newId = tasks.stream().count() + 1;
+            task.setId(newId);
+            this.tasks.add(task);
+        }else{
+            this.tasks.stream()
+                    .filter(t -> t.getId() == task.getId())
+                    .map(t -> task);
+        }
         return task;
     }
 
     @Override
-    public Long deleteByTaskDescription(String taskDescription) {
-        Optional<Task> foundtask = tasks.stream().filter(task -> taskDescription.equals(task.getTaskDescription())).findFirst();
-        if(foundtask.isPresent()){
-            Long id = foundtask.get().getId();
-            tasks.remove(foundtask.get());
-            return id;
-        }else{
-            return -1l;
-        }
-    }
-
-    @Override
-    public Optional<Task> findById(Long id) {
-        return tasks.stream().filter(task -> id.equals(task.getId())).findFirst();
+    public void deleteById(Long id) {
+        this.tasks = this.tasks.stream().filter(t -> t.getId() != id).collect(Collectors.toList());
     }
 
 

@@ -1,0 +1,10 @@
+<div class="card frosted-light">
+    <div class="card-content valign-wrapper">
+        <a (click)="toggleStatus()" class="btn-flat" >
+            <i *ngIf="!task.done" class="material-icons blue-text">trip_origin</i>
+            <i *ngIf="task.done" class="material-icons green-text">done</i>
+        </a>
+        <span class="large">{{task.taskDescription}}</span>
+        <a (click)="deleteTask()" class="cancel btn-flat"><i class="material-icons grey-text">close</i></a>
+    </div>
+</div>

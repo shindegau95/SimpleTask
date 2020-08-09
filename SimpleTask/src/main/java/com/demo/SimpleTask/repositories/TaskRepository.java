@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface TaskRepository {
     List<Task> findAll();
     Task save(Task task);
-    Long deleteByTaskDescription(String taskDescription);
     Optional<Task> findById(Long aLong);
+    void deleteById(Long id);
 }
